@@ -22,6 +22,7 @@ const Create = async (req, res) => {
         eop,
         capacity,
         qte,
+        price,
         picture,
         userid } = req.body;
 
@@ -33,6 +34,7 @@ const Create = async (req, res) => {
         eop,
         capacity,
         qte,
+        price,
         picture,
         userid  
     });
@@ -67,7 +69,15 @@ const FindById = async (req, res) => {
 
 const Update = async (req, res) => {
 
-    const { cin, email, nom, prenom, adress, tel  } = req.body;
+    const { company,
+        model,
+        sop,
+        eop,
+        capacity,
+        qte,
+        price,
+        picture,
+        userid   } = req.body;
     const { id } = req.params;
 
     let existproduct
@@ -81,18 +91,16 @@ const Update = async (req, res) => {
         return res.status(200).json({ success: false, messgae: 'product doesnt exist!!', error: false });
     }
 
-    if (req.body.password) {
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    }
 
-    existproduct.cin = cin
-    existproduct.email = email
-    existproduct.nom = nom
-    existproduct.prenom = prenom
-    existproduct.adress = adress
-    existproduct.tel = tel
-    existproduct.password = hashedPassword
+    existproduct.company = company;
+    existproduct.model = model;
+    existproduct.sop = sop;
+    existproduct.eop = eop;
+    existproduct.capacity = capacity;
+    existproduct.qte = qte;
+    existproduct.price = price;
+    existproduct.picture = picture;
+    existproduct.userid = userid;
 
     try {
         await existproduct.save();

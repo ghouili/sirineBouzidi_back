@@ -6,7 +6,8 @@ const ProdSchema = mongoose.Schema({
     sop: { type: String, required: true },
     eop: { type: String, required: true },
     capacity: { type: String, required: true },
-    qte: { type: String, required: true },
+    qte: { type: Number, required: true },
+    price: { type: Number, required: true },
     picture: { type: String, default: 'avatar.png' },
     userid:{ type: mongoose.Types.ObjectId, required: true, ref: "user" },
 });
