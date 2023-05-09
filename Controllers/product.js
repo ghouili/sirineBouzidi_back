@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const product = require('../Models/product');
+const fs = require('fs')
 
 const GetAll = async (req, res) => {
 
@@ -16,16 +17,19 @@ const GetAll = async (req, res) => {
 
 const Create = async (req, res) => {
 
-    const {company,
+    const { company,
         model,
         sop,
         eop,
         capacity,
         qte,
         price,
-        picture,
         userid } = req.body;
 
+    let picture = 'avatar.png';
+    if (req.file) {
+        picture = req.file.filename;
+    }
 
     const Newproduct = new product({
         company,
@@ -36,7 +40,7 @@ const Create = async (req, res) => {
         qte,
         price,
         picture,
-        userid  
+        userid
     });
 
     try {
@@ -76,8 +80,8 @@ const Update = async (req, res) => {
         capacity,
         qte,
         price,
-        picture,
-        userid   } = req.body;
+
+        userid } = req.body;
     const { id } = req.params;
 
     let existproduct
@@ -91,6 +95,18 @@ const Update = async (req, res) => {
         return res.status(200).json({ success: false, messgae: 'product doesnt exist!!', error: false });
     }
 
+    if (req.file) {
+        let path = `./uploads/images/${existproduct.picture}`;
+        try {
+            fs.unlinkSync(path)
+            //file removed
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ success: false, message: error, error: error })
+        }
+        existproduct.picture = req.file.filename;
+    }
+
 
     existproduct.company = company;
     existproduct.model = model;
@@ -99,7 +115,6 @@ const Update = async (req, res) => {
     existproduct.capacity = capacity;
     existproduct.qte = qte;
     existproduct.price = price;
-    existproduct.picture = picture;
     existproduct.userid = userid;
 
     try {
@@ -124,6 +139,15 @@ const Delete = async (req, res) => {
 
     if (!existproduct) {
         return res.status(200).json({ success: false, messge: 'product doesnt exist!!', error: false });
+    }
+
+    let path = `./uploads/images/${existproduct.picture}`;
+    try {
+        fs.unlinkSync(path)
+        //file removed
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: error, error: error })
     }
 
     try {

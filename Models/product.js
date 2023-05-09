@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProdSchema = mongoose.Schema({
-    company: { type: Number, required: true },
+    company: { type: String, required: true },
     model: { type: String, unique: true },
     sop: { type: String, required: true },
     eop: { type: String, required: true },

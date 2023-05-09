@@ -11,9 +11,7 @@ const server = express();
 const PORT = 5000;
 
 server.use(bodyparser.json());
-server.use(cors({
-    origin: '*'
-}));
+server.use(cors());
 
 server.use("/uploads/images", express.static(path.join("uploads", "images")));
 server.use("/uploads/PDF", express.static(path.join("uploads", "PDF")));
@@ -24,7 +22,7 @@ server.use("/uploads/PDF", express.static(path.join("uploads", "PDF")));
 // });
 
 server.get('/', (req, res) => {
-    res.send("Hello Farfour!");
+    res.send("Hello world!");
 });
 
 server.use('/user', UserController);
