@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const UserController = require('./Routes/user');
 const ProductController = require('./Routes/product');
+const OrderCtController = require('./Routes/order');
 
 const server = express();
 const PORT = 5000;
@@ -27,8 +28,10 @@ server.get('/', (req, res) => {
 
 server.use('/user', UserController);
 server.use('/product', ProductController);
+server.use('/order', OrderCtController);
 
-mongoose.connect('mongodb+srv://admin:admin@sebntn.aefhueb.mongodb.net/?retryWrites=true&w=majority').then((result) => {
+// mongoose.connect('mongodb+srv://admin:admin@sebntn.aefhueb.mongodb.net/?retryWrites=true&w=majority').then((result) => {
+mongoose.connect('mongodb+srv://sirine:sirine@cluster0.4zteiwa.mongodb.net/?retryWrites=true&w=majority').then((result) => {
     server.listen(PORT, () => {
         console.log(`server is running on port ${PORT}`);
         // console.log(result);

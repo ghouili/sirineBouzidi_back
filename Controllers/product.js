@@ -71,6 +71,33 @@ const FindById = async (req, res) => {
 
 }
 
+const UpdateStock = async (req, res) => {
+
+    const { stock } = req.body;
+    const { id } = req.params;
+
+    let existproduct
+    try {
+        existproduct = await product.findById(id);
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'something when wrong while extracting data', error: error })
+    }
+
+    if (!existproduct) {
+        return res.status(200).json({ success: false, messgae: 'product doesnt exist!!', error: false });
+    }
+
+    existproduct.qte = Number(existproduct.qte) + Number(stock);
+
+    try {
+        await existproduct.save();
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'something when wrong while extracting data', error: error })
+    }
+
+    return res.status(200).json({ success: true, message: 'success', data: existproduct });
+}
+
 const Update = async (req, res) => {
 
     const { company,
@@ -163,4 +190,5 @@ exports.GetAll = GetAll
 exports.Create = Create
 exports.FindById = FindById
 exports.Update = Update
+exports.UpdateStock = UpdateStock
 exports.Delete = Delete

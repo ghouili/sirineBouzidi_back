@@ -9,6 +9,8 @@ route.get('/', productController.GetAll);
 
 route.get('/:id', productController.FindById);
 
+route.put('/stock/:id', productController.UpdateStock);
+
 route.put('/:id', fileuploader.single('picture'), productController.Update);
 
 route.delete('/:id', productController.Delete);
